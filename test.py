@@ -34,32 +34,54 @@ def truco():
         playerCards = data['player1']
         computerCards = data['player2']
         playerCardsThrown = []
+        computerCardsThrown = []
+
+        def checkWinner(hand):
+
+            computerCardsThrown.append(computerCards.pop(random.randrange(len(computerCards))))
+            turn = 'player'
+            print(hand)
+            print(playerCards, playerCardsThrown)
+            print(computerCards, computerCardsThrown)
+            print(f"Tiraste el {playerCardsThrown[hand]}")
+            print(f"La computadora tiró {computerCardsThrown[hand]}")
+            if cardValues[playerCardsThrown[hand]] == cardValues[computerCardsThrown[hand]]:
+                print(f"Empate, turno de {turn}")
+            if cardValues[playerCardsThrown[hand]] > cardValues[computerCardsThrown[hand]]:
+                turn = "computer"
+            else:
+                turn = "player"
+            print(f"\n{turn} ganó la {hand + 1} mano\n")
+
+            if turn == 'player':
+                throwCard(hand + 1)
 
         def throwCard(throwIndex):
             nonlocal playerCards
-            if throwIndex == 1:
-                msg = f"press 1 for {playerCards[0]}, 2 for {
-                    playerCards[1]}, 3 for {playerCards[2]}\n\n"
+            if throwIndex == 0:
+                msg = f"press 1 for {playerCards[0]}, 2 for {playerCards[1]}, 3 for {playerCards[2]}\n\n"
                 playerInput = input(msg)
-            elif throwIndex == 2:
-                msg = f"press 1 for {playerCards[0]}, 2 for {
-                    playerCards[1]}\n\n"
+            elif throwIndex == 1:
+                msg = f"press 1 for {playerCards[0]}, 2 for {playerCards[1]}\n\n"
                 playerInput = input(msg)
 
             try:
                 player = int(playerInput)
             except ValueError:
                 print(f"Invalid input, {msg}")
-
-            for playerCard in playerCards:
-                if player-1 == playerCards.index(playerCard):
-                    playerCardsThrown.append(
-                        playerCards.pop(playerCards.index(playerCard)))
-                    break
-                else:
-                    continue
+                throwCard(throwIndex)
             else:
-                print("Invalid input, enter 1, 2 or 3")
+                if player >= 1 and player <= len(playerCards):
+                    for playerCard in playerCards:
+                        if player-1 == playerCards.index(playerCard):
+                            playerCardsThrown.append(playerCards.pop(playerCards.index(playerCard)))
+                            checkWinner(throwIndex)
+                            break
+                        else:
+                            continue
+                else:
+                    print("Invalid input, enter 1, 2 or 3")
+                    throwCard(throwIndex)
 
             # if firstPlayer == 1:
             #     firstPlayerCardThrown = playerCards.pop(0)
@@ -70,22 +92,9 @@ def truco():
             # else:
             #     print("Invalid input, enter 1, 2 or 3")
 
-        throwCard(1)
+        throwCard(0)
 
-        def checkWinner():
-            computerCardsThrown = [computerCards.pop(random.randrange(3))]
-            turn = 'player'
-            if cardValues[playerCardsThrown[0]] > cardValues[computerCardsThrown[0]]:
-                turn = "computer"
-            else:
-                turn = "player"
 
-            print(f"Tiraste el {playerCardsThrown[0]}")
-            print(f"La computadora tiró {computerCardsThrown[0]}")
-            print(f"\nFirst hand won by {turn}")
-
-            if turn == 'player':
-                throwCard(2)
 
 #             secondPlayerInput = input(
 #                 f"\npress 1 for {playerCards[0]}, 2 for {playerCards[1]}\n")
