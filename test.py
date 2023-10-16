@@ -1,4 +1,4 @@
-import sys
+from icecream import ic 
 import random
 
 espada = ['e1', 'e2', 'e3', 'e4', 'e5',
@@ -48,7 +48,7 @@ def truco():
 
 
         def playerThrowCard(throwIndex):
-            print(f"playerThrowCard")
+            ic(f"playerThrowCard")
             nonlocal playerCards
             nonlocal computerCards
             nonlocal playerCardsThrown
@@ -91,16 +91,16 @@ def truco():
 
 
         def computerThrowCard(computerCardsThrown):
-            print(f"computerThrowCard{computerCards, computerCardsThrown}")
+            ic(computerCards, computerCardsThrown)
             if computerCards != []:
                 computerCardsThrown.append(computerCards.pop(random.randrange(len(computerCards))))
-                print(f"momo{computerCards, computerCardsThrown}")
+                ic(computerCards, computerCardsThrown)
             else:
                 pass
 
 
         def checkHandWinner(handIndex, playerCardsThrown, computerCardsThrown):
-            print("checkHandWinner")
+            ic("checkHandWinner")
             nonlocal playerPoints
             nonlocal computerPoints
             nonlocal turn
@@ -127,35 +127,35 @@ def truco():
 
     
         def checkWinner(playerPoints, computerPoints, turn, handIndex):
-            print("checkWinner")
+            ic("checkWinner")
             if playerPoints == 2:
-                #print(f"Player WINS!")
+                print(f"Player WINS!")
                 again()
             elif computerPoints == 2:
-                #print(f"Computer WINS!")
+                print(f"Computer WINS!")
                 again()
             else:
-                print("im 0")
+                ic("im 0")
                 game(turn, handIndex + 1, data)
 
-            print(f"checkWinner: Player points: {playerPoints}")
-            print(f"checkWinner: {turn} ganó la {handIndex + 1} mano")
-            print(f"checkWinner: Player Cards: {playerCards}, Thrown: {playerCardsThrown}")
-            print(f"checkWinner: Computer Cards: {computerCards}, Thrown: {computerCardsThrown}")
-            print(f"checkWinner: Tiraste el {playerCardsThrown[handIndex]}")
-            print(f"checkWinner: La computadora tiró {computerCardsThrown[handIndex]}")
+            ic(f"checkWinner: {playerPoints}")
+            ic(f"checkWinner: {turn} ganó la {handIndex + 1} mano")
+            ic(f"checkWinner: {playerCards, playerCardsThrown}")
+            ic(f"checkWinner: {computerCards, computerCardsThrown}")
+            ic(f"checkWinner: Tiraste el {playerCardsThrown[handIndex]}")
+            ic(f"checkWinner: La computadora tiró {computerCardsThrown[handIndex]}")
 
         def again():
             nonlocal turn
             playAgainInput = input(f"\nPlay again?\nPress Y to play again or Q to quit.\n")
             playAgain = str(playAgainInput)
-            print(f"again: playAgain.capitalize {playAgain}")
+            ic(f"again: playAgain {playAgain}")
 
             if playAgain == "y":
-                print("playing again")
+                ic("playing again")
                 truco()
             elif playAgain == "q":
-                print("byebye")
+                ic("byebye")
                 quit()
             else:
                 print("Invalid input, press Y to play again or Q to quit.\n")
@@ -163,17 +163,18 @@ def truco():
         playerThrowCard(handIndex)
     
     if turn == 'player':
-        print("im 1")
+        ic("im 1")
         game(turn, 0, data)
     elif turn == 'computer':
-        print("im 2")
+        ic("im 2")
         game(turn, 0, data)
     else:
         pass
         
-        print(f"game")
-    print(f"truco")
+        ic(f"game")
+    ic(f"truco")
 
 
 
 truco()
+
