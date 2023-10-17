@@ -27,8 +27,10 @@ def deal(numPlayer):
 
     return data
 
+
 def truco():
     data = deal(2)
+    ic(data)
     turn = 'player'
     playerCardsThrown = []
     computerCardsThrown = []
@@ -52,10 +54,12 @@ def truco():
             playerInput = ''
             msg = ''
             if throwIndex == 0:
-                msg = f"press 1 for {playerCards[0]}, 2 for {playerCards[1]}, 3 for {playerCards[2]}\n\n"
+                msg = f"press 1 for {playerCards[0]}, 2 for {
+                    playerCards[1]}, 3 for {playerCards[2]}\n\n"
                 playerInput = input(msg)
             elif throwIndex == 1:
-                msg = f"press 1 for {playerCards[0]}, 2 for {playerCards[1]}\n\n"
+                msg = f"press 1 for {playerCards[0]}, 2 for {
+                    playerCards[1]}\n\n"
                 playerInput = input(msg)
             elif throwIndex == 2:
                 msg = f"press 1 for {playerCards[0]}\n\n"
@@ -72,7 +76,8 @@ def truco():
                 if player >= 1 and player <= len(playerCards):
                     for playerCard in playerCards:
                         if player-1 == playerCards.index(playerCard):
-                            playerCardsThrown.append(playerCards.pop(playerCards.index(playerCard)))
+                            playerCardsThrown.append(
+                                playerCards.pop(playerCards.index(playerCard)))
                             break
                         else:
                             continue
@@ -83,12 +88,13 @@ def truco():
 
         def computerThrowCard(computerCardsThrown):
             if computerCards != []:
-                computerCardsThrown.append(computerCards.pop(random.randrange(len(computerCards))))
+                computerCardsThrown.append(computerCards.pop(
+                    random.randrange(len(computerCards))))
                 ic(computerCards, computerCardsThrown)
                 return computerCardsThrown[-1]
             else:
                 pass
-        
+
         def checkHandWinner(handIndex, playerCardsThrown, computerCardsThrown):
             nonlocal playerPoints
             nonlocal computerPoints
@@ -127,16 +133,10 @@ def truco():
             else:
                 game(turn, handIndex + 1, data)
 
-            # ic(f"checkWinner: {playerPoints}")
-            # ic(f"checkWinner: {turn} ganó la {handIndex + 1} mano")
-            # ic(f"checkWinner: {playerCards, playerCardsThrown}")
-            # ic(f"checkWinner: {computerCards, computerCardsThrown}")
-            # ic(f"checkWinner: Tiraste el {playerCardsThrown[handIndex]}")
-            # ic(f"checkWinner: La computadora tiró {computerCardsThrown[handIndex]}")
-
         def again():
             nonlocal turn
-            playAgainInput = input(f"\nPlay again?\nPress Y to play again or Q to quit.\n")
+            playAgainInput = input(
+                f"\nPlay again?\nPress Y to play again or Q to quit.\n")
             playAgain = str(playAgainInput)
 
             if playAgain == "y":
@@ -158,7 +158,7 @@ def truco():
             print(f"Computadora tiró {computerThrowCard(computerCardsThrown)}")
             playerThrowCard(handIndex)
             checkHandWinner(handIndex, playerCardsThrown, computerCardsThrown)
-            
+
     if turn == 'player':
         ic("im 1")
         game(turn, 0, data)
