@@ -74,8 +74,8 @@ def truco():
     playerCards = handCards['player1']
     computerCards = handCards['player2']
 
-    for hand in range(3):
-        print(f"Hand: {hand + 1}")
+    for round in range(3):
+        print(f"Hand: {round + 1}")
 
         print(f"{turn}'s turn")
         playerThrownCard = ''
@@ -94,25 +94,36 @@ def truco():
                 print(f"Computer threw: {computerThrownCard}")
             if playerThrownCard and computerThrownCard:
                 if CARD_VALUES[playerThrownCard] > CARD_VALUES[computerThrownCard]:
-                    playerPoints += 1
+                    playerPoints += 2
                     turn = 'player'
-                    print(f"hand: {hand + 1} won by {turn}\n")
+                    print(f"hand: {round + 1} won by {turn}\n")
+                    
                 elif CARD_VALUES[playerThrownCard] < CARD_VALUES[computerThrownCard]:
-                    computerPoints += 1
+                    computerPoints += 2
                     turn = 'computer'
-                    print(f"hand: {hand + 1} won by {turn}\n")
+                    print(f"hand: {round + 1} won by {turn}\n")
                 else:
                     # empate
+                    print(f"hand: {round + 1} tied\n")
                     playerPoints += 1
                     computerPoints += 1
-                    print(f"hand: {hand + 1} tied\n")
-
                 break
-        if playerPoints == 2:
+        if round == 0:
+            firstRoundWinner = turn
+        if playerPoints == computerPoints:
+            if round == 2:
+                if firstRoundWinner == 'computer':
+                    print("Computer wins")
+                    playAgain()
+                else:
+                    print("Player wins")
+                    playAgain()
+
+        if playerPoints >= 3:
             print("player wins")
             playAgain()
             break
-        elif computerPoints == 2:
+        elif computerPoints >= 3:
             print("Computer wins")
             playAgain()
             break
