@@ -25,12 +25,12 @@ def getPlayerInput(playerCards):
             playerInput = int(input("Press (1) to throw a card\n"))
 
         if playerInput < 1 or playerInput > 3:
-            print(f"Invalid input:")
+            print(f"Invalid input: ")
             return getPlayerInput(playerCards)
         else:
             return playerInput - 1
     except ValueError:
-        print(f"Invalid input:")
+        print(f"Invalid input: ")
         return getPlayerInput(playerCards)
 
 
@@ -38,19 +38,6 @@ def getComputerInput(computerCards):
     if computerCards != []:
         computerInput = random.randint(0, len(computerCards) - 1)
         return computerInput
-
-
-def getEnvidoInput(playerCards, computerCards, startingTurn):
-    envidoInput = str(
-        input('Type "ENVIDO", "REAL ENVIDO", "FALTA ENVIDO" o "PASO"\n')).lower()
-    validInputs = ['envido', 'real envido', 'falta envido']
-    if envidoInput in validInputs:
-        return envidoInput
-    elif envidoInput == 'paso':
-        pass
-    else:
-        print('Invalid input')
-        getEnvidoInput(playerCards, computerCards, startingTurn)
 
 
 def playAgain():
@@ -76,6 +63,7 @@ def truco():
     handCards = deal(numPlayers)
     playerCards = handCards['player1']
     computerCards = handCards['player2']
+
     print("-------------------\n| Your cards are: |\n-------------------")
     for card in playerCards:
         print(f"{playerCards.index(card) + 1}. | {card} |")
@@ -88,10 +76,8 @@ def truco():
         computerThrownCard = ''
 
         while True:
+
             if turn == 'player':
-                if round == 0:
-                    envidoInput = getEnvidoInput(
-                        playerCards, computerCards, startingTurn)
 
                 playerThrownCardIndex = getPlayerInput(playerCards)
                 playerThrownCard = playerCards.pop(playerThrownCardIndex)
@@ -118,6 +104,7 @@ def truco():
                     playerPoints += 1
                     computerPoints += 1
                 break
+
         if round == 0:
             firstRoundWinner = turn
         if playerPoints == computerPoints:
