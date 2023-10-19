@@ -24,7 +24,7 @@ def getPlayerInput(playerCards):
         elif numPlayerCards == 1:
             playerInput = int(input("Press (1) to throw a card\n"))
 
-        if playerInput < 1 or playerInput > 3:
+        if playerInput < 1 or playerInput > len(playerCards):
             print(f"Invalid input: ")
             return getPlayerInput(playerCards)
         else:
@@ -55,6 +55,7 @@ def truco():
 
     startingTurn = 'computer'
     turn = startingTurn
+    envidoTurn = startingTurn
 
     numPlayers = 2
     playerPoints = 0
@@ -69,7 +70,7 @@ def truco():
         print(f"{playerCards.index(card) + 1}. | {card} |")
 
     for round in range(3):
-        print(f"Hand: {round + 1}")
+        print(f"\nHand: {round + 1}")
 
         print(f"{turn}'s turn")
         playerThrownCard = ''
