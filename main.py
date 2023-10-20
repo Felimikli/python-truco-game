@@ -1,6 +1,6 @@
 from icecream import ic
 import random
-from cards import cards, CARD_VALUES
+from constants import cards, CARD_VALUES, swapTurn
 from envido import envido
 
 
@@ -55,7 +55,6 @@ def truco():
 
     startingTurn = 'computer'
     turn = startingTurn
-    envidoTurn = startingTurn
 
     numPlayers = 2
     playerPoints = 0
@@ -64,6 +63,9 @@ def truco():
     handCards = deal(numPlayers)
     playerCards = handCards['player1']
     computerCards = handCards['player2']
+
+    ic(playerCards)
+    ic(computerCards)
 
     print("-------------------\n| Your cards are: |\n-------------------")
     for card in playerCards:
@@ -76,19 +78,27 @@ def truco():
         playerThrownCard = ''
         computerThrownCard = ''
 
+        # if round == 0:
+        #     ic(envido(playerCards, computerCards, turn))
+        envidoCall = 0
         while True:
 
-            if turn == 'player':
+            if round == 0 and not envidoCall:
+                envidoCall = envido(playerCards, computerCards, turn)
+                if envidoCall != 0:
+                    envidoWinner = envidoCall[0]
+                    envidoPointsWon = envidoCall[1]
+                    ic(envidoCall, envidoWinner, envidoPointsWon)
 
+            if turn == 'player':
                 playerThrownCardIndex = getPlayerInput(playerCards)
                 playerThrownCard = playerCards.pop(playerThrownCardIndex)
-                turn = 'computer'
                 print(f"You threw: {playerThrownCard}")
             else:
                 computerThrownCardIndex = getComputerInput(computerCards)
                 computerThrownCard = computerCards.pop(computerThrownCardIndex)
-                turn = 'player'
                 print(f"Computer threw: {computerThrownCard}")
+            turn = swapTurn(turn)
             if playerThrownCard and computerThrownCard:
                 if CARD_VALUES[playerThrownCard] > CARD_VALUES[computerThrownCard]:
                     playerPoints += 2

@@ -173,3 +173,50 @@
 
 
 # truco()
+
+# OLD
+# if envidoIndex == 0:
+#     playerChoice = str(input(f'press e, re, fe, pass\n'))
+#     if playerChoice not in ['e', 're', 'fe', 'pass']:
+#         print('Invalid Input:\n')
+#         return getEnvidoPlayer(envidoIndex)
+#     return playerChoice
+
+# elif envidoIndex == 1:
+#     playerChoice = str(input(f'press q, n, 2e, re, fe\n'))
+#     if playerChoice not in ['q', 'n', '2e', 're', 'fe']:
+#         print('Invalid Input:\n')
+#         return getEnvidoPlayer(envidoIndex)
+#     return playerChoice
+
+# elif envidoIndex == 2:
+#     playerChoice = str(input(f'press q, n, re, fe\n'))
+#     if playerChoice not in ['q', 'n', 're', 'fe']:
+#         print('Invalid Input:\n')
+#         return getEnvidoPlayer(envidoIndex)
+#     return playerChoice
+
+# elif envidoIndex == 3:
+#     playerChoice = str(input(f'press q, n, fe\n'))
+#     if playerChoice not in ['q', 'n', 'fe']:
+#         print('Invalid Input:\n')
+#         return getEnvidoPlayer(envidoIndex)
+#     return playerChoice
+
+# elif envidoIndex == 4:
+#     playerChoice = str(input(f'press q, n\n'))
+#     if playerChoice not in ['q', 'n']:
+#         print('Invalid Input:\n')
+#         return getEnvidoPlayer(envidoIndex)
+#     return playerChoice
+# OLD
+# if envidoIndex == 0:
+#     return random.choice(['e', 're', 'fe', 'pass'])
+# elif envidoIndex == 1:
+#     return random.choice(['q', 'n', '2e', 're', 'fe'])
+# elif envidoIndex == 2:
+#     return random.choice(['q', 'n', 're', 'fe'])
+# elif envidoIndex == 3:
+#     return random.choice(['q', 'n', 'fe'])
+# elif envidoIndex == 4:
+#     return random.choice(['q', 'n'])
