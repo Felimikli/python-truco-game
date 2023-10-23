@@ -3,7 +3,7 @@ from icecream import ic
 from constants import swapTurn, ENVIDO_PATHS
 
 
-def envido(playerCards, computerCards, turn):
+def envido(playerCards, computerCards, turn, initialInput):
 
     def envidoSum(cards):
         totalEnvido = {'e': [], 'b': [], 'o': [], 'c': [], }
@@ -47,7 +47,7 @@ def envido(playerCards, computerCards, turn):
             winner = 'computer'
         return winner
 
-    def getEnvidoPlayer(envidoIndex):
+    def getPlayerEnvido(envidoIndex):
 
         options = {
             0: ['e', 're', 'fe', 'pass'],
@@ -57,16 +57,16 @@ def envido(playerCards, computerCards, turn):
             4: ['q', 'n']
         }
 
-        while True:
-            playerChoice = str(
-                input(f'press {", ".join(options[envidoIndex])}\n'))
-            if playerChoice in options[envidoIndex]:
-                return playerChoice
-            else:
-                print('Invalid Input:\n')
-                return getEnvidoPlayer(envidoIndex)
+        # while True:
+        playerChoice = str(
+            input(f'press {", ".join(options[envidoIndex])}\n'))
+        if playerChoice in options[envidoIndex]:
+            return playerChoice
+        else:
+            print('Invalid Input:\n')
+            return getPlayerEnvido(envidoIndex)
 
-                # HARD-CODING
+            # HARD-CODING
         # if envidoIndex == 0:
         #     return ''
         # elif envidoIndex == 1:
@@ -78,7 +78,7 @@ def envido(playerCards, computerCards, turn):
         # elif envidoIndex == 4:
         #     return ''
 
-    def getEnvidoComputer(envidoIndex):
+    def getComputerEnvido(envidoIndex):
         options = {
             0: ['e', 're', 'fe', 'pass'],
             1: ['q', 'n', '2e', 're', 'fe'],
@@ -101,74 +101,41 @@ def envido(playerCards, computerCards, turn):
         # elif envidoIndex == 4:
         #     return ''
 
-    def main(turn, envidoIndex, pointsAtRisk):
+    def main(turn, initialInput, envidoIndex, pointsAtRisk):
         envidoPath = ''
         winner = ''
-        for _ in range(6):
+        for i in range(100):
             choice = ''
-            if turn == 'player':
-                choice = getEnvidoPlayer(envidoIndex)
+            if i == 0:
+                choice = initialInput
+            elif turn == 'player':
+                choice = getPlayerEnvido(envidoIndex)
                 print(f'player called {choice}')
             else:
-                choice = getEnvidoComputer(envidoIndex)
+                choice = getComputerEnvido(envidoIndex)
                 print(f'computer called {choice}')
 
-            if envidoIndex == 0:
-                if choice == 'e':
-                    envidoIndex = 1
-                elif choice == 're':
-                    envidoIndex = 3
-                elif choice == 'fe':
-                    envidoIndex = 4
-                elif choice == 'pass':
-                    return 0
-                envidoPath += choice
+            if choice == 'q':
+                winner = findWinner(playerCards, computerCards, turn)
+            elif choice == 'n':
+                winner = swapTurn(turn)
+            elif choice == 'e':
+                envidoIndex = 1
+            elif choice == '2e':
+                envidoIndex = 2
+            elif choice == 're':
+                envidoIndex = 3
+            elif choice == 'fe':
+                envidoIndex = 4
 
-            elif envidoIndex == 1:
-                if choice == 'q':
-                    winner = findWinner(playerCards, computerCards, turn)
-                elif choice == 'n':
-                    winner = swapTurn(turn)
-                elif choice == '2e':
-                    envidoIndex = 2
-                elif choice == 're':
-                    envidoIndex = 3
-                elif choice == 'fe':
-                    envidoIndex = 4
-                envidoPath += choice
+            envidoPath += choice
 
-            elif envidoIndex == 2:
-                if choice == 'q':
-                    winner = findWinner(playerCards, computerCards, turn)
-                elif choice == 'n':
-                    winner = swapTurn(turn)
-                elif choice == 're':
-                    envidoIndex = 3
-                elif choice == 'fe':
-                    envidoIndex = 4
-                envidoPath += choice
-
-            elif envidoIndex == 3:
-                if choice == 'q':
-                    winner = findWinner(playerCards, computerCards, turn)
-                elif choice == 'n':
-                    winner = swapTurn(turn)
-                elif choice == 'fe':
-                    envidoIndex = 4
-                envidoPath += choice
-
-            elif envidoIndex == 4:
-                if choice == 'q':
-                    winner = findWinner(playerCards, computerCards, turn)
-                elif choice == 'n':
-                    winner = swapTurn(turn)
-                envidoPath += choice
-
-            if envidoPath[-1] in ['q', 'n']:
+            if choice in ['q', 'n']:
                 break
 
             turn = swapTurn(turn)
+
         pointsAtRisk = ENVIDO_PATHS[envidoPath]
         return winner, pointsAtRisk
 
-    return main(turn, envidoIndex=0, pointsAtRisk=0)
+    return main(turn, initialInput, envidoIndex=0, pointsAtRisk=0)

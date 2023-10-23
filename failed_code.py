@@ -220,3 +220,54 @@
 #     return random.choice(['q', 'n', 'fe'])
 # elif envidoIndex == 4:
 #     return random.choice(['q', 'n'])
+
+# if envidoIndex == 0:
+#     if choice == 'e':
+#         envidoIndex = 1
+#     elif choice == 're':
+#         envidoIndex = 3
+#     elif choice == 'fe':
+#         envidoIndex = 4
+#     elif choice == 'pass':
+#         return 0
+#     envidoPath += choice
+
+# elif envidoIndex in [1, 2, 3, 4]:
+#     if choice == 'q':
+#         winner = findWinner(playerCards, computerCards, turn)
+#     elif choice == 'n':
+#         winner = swapTurn(turn)
+#     elif choice == '2e':
+#         envidoIndex = 2
+#     elif choice == 're':
+#         envidoIndex = 3
+#     elif choice == 'fe':
+#         envidoIndex = 4
+#     envidoPath += choice
+
+# elif envidoIndex == 2:
+#     if choice == 'q':
+#         winner = findWinner(playerCards, computerCards, turn)
+#     elif choice == 'n':
+#         winner = swapTurn(turn)
+#     elif choice == 're':
+#         envidoIndex = 3
+#     elif choice == 'fe':
+#         envidoIndex = 4
+#     envidoPath += choice
+
+# elif envidoIndex == 3:
+#     if choice == 'q':
+#         winner = findWinner(playerCards, computerCards, turn)
+#     elif choice == 'n':
+#         winner = swapTurn(turn)
+#     elif choice == 'fe':
+#         envidoIndex = 4
+#     envidoPath += choice
+
+# elif envidoIndex == 4:
+#     if choice == 'q':
+#         winner = findWinner(playerCards, computerCards, turn)
+#     elif choice == 'n':
+#         winner = swapTurn(turn)
+#     envidoPath += choice

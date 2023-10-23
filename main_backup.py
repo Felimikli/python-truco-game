@@ -17,59 +17,24 @@ def game(startingTurn):
         return data
         # or return {f'player{}': card_deck[i * 3:i * 3 + 3] for i in range(1, num_players + 1)}
 
-    def getPlayerEnvido():
-
-        # options = {
-        #     0: ['e', 're', 'fe'],
-        #     1: ['q', 'n', '2e', 're', 'fe'],
-        #     2: ['q', 'n', 're', 'fe'],
-        #     3: ['q', 'n', 'fe'],
-        #     4: ['q', 'n']
-        # }
-        envidoChoice = f'e, re ,fe\n'
-        return envidoChoice
-
-    def getPlayerTruco(trucoIndex):
-        options = {
-            1: ['truco'],
-            2: ['quiero', 'no quiero', 'retruco'],
-            3: ['quiero', 'no quiero', 'valecuatro'],
-            4: ['quiero', 'no quiero']
-        }
-        trucoChoice = f'press {", ".join(options[trucoIndex])}\n'
-        return trucoChoice
-
-    def getPlayerCard(playerCards):
+    def getPlayerInput(playerCards):
         numPlayerCards = len(playerCards)
+        try:
+            if numPlayerCards == 3:
+                playerInput = int(input("Press (1, 2 or 3) to throw a card\n"))
+            elif numPlayerCards == 2:
+                playerInput = int(input("Press (1 or 2) to throw a card\n"))
+            elif numPlayerCards == 1:
+                playerInput = int(input("Press (1) to throw a card\n"))
 
-        cardChoice = str((f'press {", ".join(playerCards)}\n'))
-        return cardChoice
-
-    def getPlayerInput(playerCards, trucoIndex, round, envidoCall):
-
-        inputMsg = ''
-        if round == 0 and envidoCall == 0:
-            inputMsg += getPlayerEnvido()
-        inputMsg += getPlayerTruco(trucoIndex)
-        inputMsg += getPlayerCard(playerCards)
-        playerChoice = str(input(f'press {inputMsg}\n'))
-        return playerChoice
-        # try:
-        #     if numPlayerCards == 3:
-        #         playerInput = int(input("Press (1, 2 or 3) to throw a card\n"))
-        #     elif numPlayerCards == 2:
-        #         playerInput = int(input("Press (1 or 2) to throw a card\n"))
-        #     elif numPlayerCards == 1:
-        #         playerInput = int(input("Press (1) to throw a card\n"))
-
-        #     if playerInput < 1 or playerInput > len(playerCards):
-        #         print(f"Invalid input: ")
-        #         return getPlayerInput(playerCards)
-        #     else:
-        #         return playerInput - 1
-        # except ValueError:
-        #     print(f"Invalid input: ")
-        #     return getPlayerInput(playerCards)
+            if playerInput < 1 or playerInput > len(playerCards):
+                print(f"Invalid input: ")
+                return getPlayerInput(playerCards)
+            else:
+                return playerInput - 1
+        except ValueError:
+            print(f"Invalid input: ")
+            return getPlayerInput(playerCards)
 
     def getComputerInput(computerCards):
         if computerCards != []:
@@ -94,8 +59,6 @@ def game(startingTurn):
         allPlayerCards = handCards['player1']
         allComputerCards = handCards['player2']
 
-        trucoIndex = 1
-
         print("-------------------\n| Your cards are: |\n-------------------")
         for card in playerCards:
             print(f"{playerCards.index(card) + 1}. | {card} |")
@@ -108,28 +71,20 @@ def game(startingTurn):
             computerThrownCard = ''
 
             envidoCall = 0
+            while True:
 
-            for i in range(100):
-
-                # if round == 0 and envidoCall == 0:
-                #     envidoCall = envido(allPlayerCards, allComputerCards, turn)
-                #     if envidoCall != 0:
-                #         envidoWinner = envidoCall[0]
-                #         envidoPointsWon = envidoCall[1]
-                #         ic(envidoCall, envidoWinner, envidoPointsWon)
-                #         totalPoints[envidoWinner] += envidoPointsWon
+                if round == 0 and envidoCall == 0:
+                    envidoCall = envido(allPlayerCards, allComputerCards, turn)
+                    if envidoCall != 0:
+                        envidoWinner = envidoCall[0]
+                        envidoPointsWon = envidoCall[1]
+                        ic(envidoCall, envidoWinner, envidoPointsWon)
+                        totalPoints[envidoWinner] += envidoPointsWon
 
                 if turn == 'player':
-                    playerInput = getPlayerInput(
-                        playerCards, trucoIndex, round, envidoCall)
-                    if playerInput in playerCards:
-                        playerCards.remove(playerInput)
-                        print(f"You threw: {playerInput}")
-                    elif playerInput in ['e', 're', 'fe']:
-                        envidoCall = envido(
-                            playerCards, computerCards, turn, playerInput)
-                    else:
-                        trucoIndex += 1
+                    playerThrownCardIndex = getPlayerInput(playerCards)
+                    playerThrownCard = playerCards.pop(playerThrownCardIndex)
+                    print(f"You threw: {playerThrownCard}")
                 else:
                     computerThrownCardIndex = getComputerInput(computerCards)
                     computerThrownCard = computerCards.pop(
@@ -158,24 +113,24 @@ def game(startingTurn):
             if playerPoints == computerPoints:
                 if round == 2:
                     if firstRoundWinner == 'computer':
-                        totalPoints['computer'] += trucoIndex
+                        totalPoints['computer'] += 1
                         print(
                             f"Computer wins.\nPlayer points: {totalPoints['player']}, computer points: {totalPoints['computer']}")
                         playAgain(startingTurn)
                     else:
-                        totalPoints['player'] += trucoIndex
+                        totalPoints['player'] += 1
                         print(
                             f"Player wins.\nPlayer points: {totalPoints['player']}, computer points: {totalPoints['computer']}")
                         playAgain(startingTurn)
 
             if playerPoints >= 3:
-                totalPoints['player'] += trucoIndex
+                totalPoints['player'] += 1
                 print(
                     f"Player wins.\nPlayer points: {totalPoints['player']}, computer points: {totalPoints['computer']}")
                 playAgain(startingTurn)
                 break
             elif computerPoints >= 3:
-                totalPoints['computer'] += trucoIndex
+                totalPoints['computer'] += 1
                 print(
                     f"Computer wins.\nPlayer points: {totalPoints['player']}, computer points: {totalPoints['computer']}")
                 playAgain(startingTurn)
